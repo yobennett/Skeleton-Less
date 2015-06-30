@@ -20,6 +20,21 @@ module.exports = function(grunt) {
       }
     },
 
+    // Handle vendor prefixing
+    postcss: {
+      options: {
+        processors: [
+          require('autoprefixer-core')({ browsers: ['last 2 versions', 'ie 8', 'ie 9'] })
+        ]
+      },
+      dist: {
+        src: 'css/*.css'
+      },
+      docs: {
+        src: '_site/*.css'
+      }
+    },
+
     // Runs CSS reporting
     parker: {
       options: {
@@ -53,18 +68,19 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: ['less/**/*.less'], // which files to watch
-        tasks: ['less', 'parker']
+        tasks: ['less', 'postcss', 'parker']
       }
     }
 
   });
 
   // Load dependencies
+  grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-parker');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
 
   // Generate and format the CSS
-  grunt.registerTask('default', ['less', 'watch', 'parker']);
+  grunt.registerTask('default', ['less', 'postcss', 'parker']);
 
 };
