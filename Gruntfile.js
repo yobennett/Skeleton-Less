@@ -51,10 +51,7 @@ module.exports = function(grunt) {
     // Build tooling
 
     watch: {
-      options: {
-      	livereload: false,
-      },
-      styles: {
+      less: {
         files: ['less/**/*.less'], // which files to watch
         tasks: ['less', 'parker']
       }
