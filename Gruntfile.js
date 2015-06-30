@@ -20,6 +20,34 @@ module.exports = function(grunt) {
       }
     },
 
+    // Runs CSS reporting
+    parker: {
+      options: {
+        metrics: [
+          'TotalStylesheets',
+          'TotalStylesheetSize',
+          'TotalRules',
+          'TotalSelectors',
+          'TotalIdentifiers',
+          'TotalDeclarations',
+          'SelectorsPerRule',
+          'IdentifiersPerSelector',
+          'SpecificityPerSelector',
+          'TopSelectorSpecificity',
+          'TopSelectorSpecificitySelector',
+          'TotalIdSelectors',
+          'TotalUniqueColours',
+          'TotalImportantKeywords',
+          'TotalMediaQueries'
+        ],
+        file: "css/.skeleton-less-stats.md",
+        usePackage: true
+      },
+      src: [
+        'css/*.css'
+      ]
+    },
+
     // Build tooling
 
     watch: {
@@ -28,20 +56,18 @@ module.exports = function(grunt) {
       },
       styles: {
         files: ['less/**/*.less'], // which files to watch
-        tasks: ['less'],
-        options: {
-          nospawn: true
-        }
+        tasks: ['less', 'parker']
       }
     }
 
   });
 
   // Load dependencies
-  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-parker');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
   // Generate and format the CSS
-  grunt.registerTask('default', ['less', 'watch']);
+  grunt.registerTask('default', ['less', 'watch', 'parker']);
 
 };
