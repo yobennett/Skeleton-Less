@@ -86,8 +86,7 @@ module.exports = function(grunt) {
       },
       watch: {
         jekyll: {
-          files: ['docs/*.md'],
-          tasks: ['jekyll:dev']
+          files: ['docs/*.md']
         }
       }
     }
@@ -102,6 +101,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
 
   // Generate and format the CSS
-  grunt.registerTask('default', ['less', 'jekyll', 'postcss', 'parker']);
+  grunt.registerTask('default', ['jekyll', 'less', 'postcss', 'parker']);
 
 };
