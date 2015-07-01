@@ -15,7 +15,8 @@ module.exports = function(grunt) {
           dumpLineNumbers: 'false'
         },
         files: {
-          "css/skeleton.css": "less/skeleton.less"
+          "css/skeleton.css": "less/skeleton.less",
+          "_site/docs.css": "docs/docs.less"
         }
       }
     },
@@ -66,9 +67,28 @@ module.exports = function(grunt) {
     // Build tooling
 
     watch: {
+      options: {
+        livereload: true
+      },
       less: {
-        files: ['less/**/*.less'], // which files to watch
+        files: ['less/**/*.less', 'docs/*.less'], // which files to watch
         tasks: ['less', 'postcss', 'parker']
+      }
+    },
+
+    // Compile Jekyll static site
+    // Example from https://gist.github.com/dannygarcia/3753650
+    jekyll: {
+      options: {
+        src: 'docs',
+        dest: '_site',
+        config: '_config.yml'
+      },
+      watch: {
+        jekyll: {
+          files: ['docs/*.md'],
+          tasks: ['jekyll:dev']
+        }
       }
     }
 
@@ -78,9 +98,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-parker');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-jekyll');
   grunt.loadNpmTasks('grunt-contrib-less');
 
   // Generate and format the CSS
-  grunt.registerTask('default', ['less', 'postcss', 'parker']);
+  grunt.registerTask('default', ['less', 'jekyll', 'postcss', 'parker']);
 
 };
